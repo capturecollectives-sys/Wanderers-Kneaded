@@ -1,0 +1,172 @@
+const data = window.WK_SITE_DATA;
+const $ = (selector) => document.querySelector(selector);
+
+function parseTime(value, now = new Date()) {
+  const [hours, minutes] = value.split(":").map(Number);
+  const date = new Date(now);
+  date.setHours(hours, minutes, 0, 0);
+  return date;
+}
+
+function formatDuration(ms) {
+  if (ms <= 0) return "now";
+  const totalMinutes = Math.floor(ms / 60000);
+  const hours = Math.floor(totalMinutes / 60);
+  const minutes = totalMinutes % 60;
+  if (hours > 0) return `${hours}h ${minutes}m`;
+  return `${minutes}m`;
+}
+
+function getStatus() {
+  const now = new Date();
+  const open = parseTime(data.today.open, now);
+  const close = parseTime(data.today.close, now);
+  const trading = data.today.isTradingToday;
+
+  if (!trading) {
+    return {
+      open: false,
+      label: "Not trading today",
+      timer: "Check Instagram for pop-ups",
+      next: "Paused"
+    };
+  }
+
+  if (now < open) {
+    return {
+      open: false,
+      label: "Opens today",
+      timer: `Opens in ${formatDuration(open - now)}`,
+      next: formatDuration(open - now)
+    };
+  }
+
+  if (now >= open && now < close) {
+    return {
+      open: true,
+      label: "Open now",
+      timer: `Closes in ${formatDuration(close - now)}`,
+      next: formatDuration(close - now)
+    };
+  }
+
+  return {
+    open: false,
+    label: "Closed now",
+    timer: "Closed for today",
+    next: "Tomorrow"
+  };
+}
+
+function renderLiveStatus() {
+  const status = getStatus();
+  const time = new Intl.DateTimeFormat("en-GB", {
+    hour: "2-digit",
+    minute: "2-digit",
+    timeZone: "Europe/London"
+  }).format(new Date());
+
+  $("#statusPill").textContent = status.label;
+  $("#statusPill").classList.toggle("is-open", status.open);
+  $("#todayLocation").textContent = `${data.today.name} - ${data.today.address}`;
+  $("#todayHours").textContent = `${data.today.open} - ${data.today.close}`;
+  $("#countdown").textContent = status.next;
+  $("#localTime").textContent = time;
+  $("#todayHeadline").textContent = status.open ? `We are at ${data.today.name}` : `Find us at ${data.today.name}`;
+  $("#todayNote").textContent = data.today.note;
+  $("#todayAddress").textContent = data.today.address;
+  $("#todayWindow").textContent = `${data.today.open} - ${data.today.close}`;
+  $("#todayTimer").textContent = status.timer;
+  $("#mapLink").href = data.today.mapUrl;
+  $("#todayMapsButton").href = data.today.mapUrl;
+}
+
+function card(template) {
+  const node = document.createElement("article");
+  node.innerHTML = template;
+  return node;
+}
+
+function renderCollections() {
+  const services = $("#serviceGrid");
+  data.services.forEach((item) => {
+    services.appendChild(card(`
+      <span>${item.tag}</span>
+      <h3>${item.title}</h3>
+      <p>${item.text}</p>
+    `));
+  });
+
+  const locations = $("#locationsStack");
+  data.locations.forEach((item) => {
+    locations.appendChild(card(`
+      <span>${item.status}</span>
+      <h3>${item.name}</h3>
+      <p>${item.address}</p>
+      <small>${item.detail}</small>
+    `));
+  });
+
+  const partners = $("#partnerTrack");
+  [...data.partners, ...data.partners].forEach((partner) => {
+    const pill = document.createElement("span");
+    if (partner.logo) {
+      const image = document.createElement("img");
+      image.src = partner.logo;
+      image.alt = partner.name;
+      image.loading = "lazy";
+      pill.appendChild(image);
+    } else {
+      pill.textContent = partner.name;
+    }
+    pill.setAttribute("aria-label", partner.name);
+    partners.appendChild(pill);
+  });
+
+  const proof = $("#proofGrid");
+  data.proof.forEach((item) => {
+    proof.appendChild(card(`
+      <h3>${item.title}</h3>
+      <p>${item.text}</p>
+    `));
+  });
+
+  const reasons = $("#reasonList");
+  data.reasons.forEach((reason, index) => {
+    const row = document.createElement("div");
+    row.innerHTML = `<span>0${index + 1}</span><p>${reason}</p>`;
+    reasons.appendChild(row);
+  });
+
+  const menu = $("#menuGrid");
+  data.menu.forEach((item) => {
+    menu.appendChild(card(`
+      <span>${item.label}</span>
+      <h3>${item.name}</h3>
+      <p>${item.ingredients}</p>
+    `));
+  });
+}
+
+function setHeaderState() {
+  const header = document.querySelector("[data-elevate]");
+  header.classList.toggle("is-scrolled", window.scrollY > 20);
+}
+
+function enableReveal() {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) entry.target.classList.add("is-visible");
+    });
+  }, { threshold: 0.16 });
+
+  document.querySelectorAll(".reveal").forEach((element) => observer.observe(element));
+}
+
+renderCollections();
+renderLiveStatus();
+enableReveal();
+setHeaderState();
+
+setInterval(renderLiveStatus, 30000);
+window.addEventListener("scroll", setHeaderState, { passive: true });
