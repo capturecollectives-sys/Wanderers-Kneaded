@@ -1,6 +1,36 @@
 const data = window.WK_SITE_DATA;
 const $ = (selector) => document.querySelector(selector);
 
+function ensureInstagramSection() {
+  if (!data.instagram || document.querySelector("#instagram")) return;
+
+  if (!document.querySelector('link[href="instagram.css"]')) {
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href = "instagram.css";
+    document.head.appendChild(link);
+  }
+
+  const section = document.createElement("section");
+  section.id = "instagram";
+  section.className = "section instagram-section";
+  section.innerHTML = `
+    <div class="section-kicker">Fresh from Instagram</div>
+    <div class="instagram-head">
+      <div>
+        <h2>Follow the van, the queues and the fire.</h2>
+        <p>Drop a live Instagram widget into the slot below when the account token or embed code is ready. Until then, this gallery keeps the page lively with real Wanderers Kneaded visuals and a direct route to Instagram.</p>
+      </div>
+      <a class="button primary" href="https://www.instagram.com/wandererskneaded/" target="_blank" rel="noreferrer">Open Instagram</a>
+    </div>
+    <div class="instagram-live-slot" id="instagramLiveSlot" aria-label="Live Instagram feed area"></div>
+    <div class="instagram-grid" id="instagramGrid" aria-label="Instagram gallery fallback"></div>
+  `;
+
+  const footer = document.querySelector(".site-footer");
+  document.body.insertBefore(section, footer);
+}
+
 function parseTime(value, now = new Date()) {
   const [hours, minutes] = value.split(":").map(Number);
   const date = new Date(now);
@@ -23,15 +53,9 @@ function getStatus() {
   const close = parseTime(data.today.close, now);
   const trading = data.today.isTradingToday;
 
-  if (!trading) {
-    return { open: false, label: "Not trading today", timer: "Check Instagram for pop-ups", next: "Paused" };
-  }
-  if (now < open) {
-    return { open: false, label: "Opens today", timer: `Opens in ${formatDuration(open - now)}`, next: formatDuration(open - now) };
-  }
-  if (now >= open && now < close) {
-    return { open: true, label: "Open now", timer: `Closes in ${formatDuration(close - now)}`, next: formatDuration(close - now) };
-  }
+  if (!trading) return { open: false, label: "Not trading today", timer: "Check Instagram for pop-ups", next: "Paused" };
+  if (now < open) return { open: false, label: "Opens today", timer: `Opens in ${formatDuration(open - now)}`, next: formatDuration(open - now) };
+  if (now >= open && now < close) return { open: true, label: "Open now", timer: `Closes in ${formatDuration(close - now)}`, next: formatDuration(close - now) };
   return { open: false, label: "Closed now", timer: "Closed for today", next: "Tomorrow" };
 }
 
@@ -132,6 +156,7 @@ function enableReveal() {
   document.querySelectorAll(".reveal").forEach((element) => observer.observe(element));
 }
 
+ensureInstagramSection();
 renderCollections();
 renderLiveStatus();
 enableReveal();
