@@ -24,48 +24,20 @@ function getStatus() {
   const trading = data.today.isTradingToday;
 
   if (!trading) {
-    return {
-      open: false,
-      label: "Not trading today",
-      timer: "Check Instagram for pop-ups",
-      next: "Paused"
-    };
+    return { open: false, label: "Not trading today", timer: "Check Instagram for pop-ups", next: "Paused" };
   }
-
   if (now < open) {
-    return {
-      open: false,
-      label: "Opens today",
-      timer: `Opens in ${formatDuration(open - now)}`,
-      next: formatDuration(open - now)
-    };
+    return { open: false, label: "Opens today", timer: `Opens in ${formatDuration(open - now)}`, next: formatDuration(open - now) };
   }
-
   if (now >= open && now < close) {
-    return {
-      open: true,
-      label: "Open now",
-      timer: `Closes in ${formatDuration(close - now)}`,
-      next: formatDuration(close - now)
-    };
+    return { open: true, label: "Open now", timer: `Closes in ${formatDuration(close - now)}`, next: formatDuration(close - now) };
   }
-
-  return {
-    open: false,
-    label: "Closed now",
-    timer: "Closed for today",
-    next: "Tomorrow"
-  };
+  return { open: false, label: "Closed now", timer: "Closed for today", next: "Tomorrow" };
 }
 
 function renderLiveStatus() {
   const status = getStatus();
-  const time = new Intl.DateTimeFormat("en-GB", {
-    hour: "2-digit",
-    minute: "2-digit",
-    timeZone: "Europe/London"
-  }).format(new Date());
-
+  const time = new Intl.DateTimeFormat("en-GB", { hour: "2-digit", minute: "2-digit", timeZone: "Europe/London" }).format(new Date());
   $("#statusPill").textContent = status.label;
   $("#statusPill").classList.toggle("is-open", status.open);
   $("#todayLocation").textContent = `${data.today.name} - ${data.today.address}`;
@@ -89,23 +61,10 @@ function card(template) {
 
 function renderCollections() {
   const services = $("#serviceGrid");
-  data.services.forEach((item) => {
-    services.appendChild(card(`
-      <span>${item.tag}</span>
-      <h3>${item.title}</h3>
-      <p>${item.text}</p>
-    `));
-  });
+  data.services.forEach((item) => services.appendChild(card(`<span>${item.tag}</span><h3>${item.title}</h3><p>${item.text}</p>`)));
 
   const locations = $("#locationsStack");
-  data.locations.forEach((item) => {
-    locations.appendChild(card(`
-      <span>${item.status}</span>
-      <h3>${item.name}</h3>
-      <p>${item.address}</p>
-      <small>${item.detail}</small>
-    `));
-  });
+  data.locations.forEach((item) => locations.appendChild(card(`<span>${item.status}</span><h3>${item.name}</h3><p>${item.address}</p><small>${item.detail}</small>`)));
 
   const partners = $("#partnerTrack");
   [...data.partners, ...data.partners].forEach((partner) => {
@@ -124,12 +83,7 @@ function renderCollections() {
   });
 
   const proof = $("#proofGrid");
-  data.proof.forEach((item) => {
-    proof.appendChild(card(`
-      <h3>${item.title}</h3>
-      <p>${item.text}</p>
-    `));
-  });
+  data.proof.forEach((item) => proof.appendChild(card(`<h3>${item.title}</h3><p>${item.text}</p>`)));
 
   const reasons = $("#reasonList");
   data.reasons.forEach((reason, index) => {
@@ -139,13 +93,29 @@ function renderCollections() {
   });
 
   const menu = $("#menuGrid");
-  data.menu.forEach((item) => {
-    menu.appendChild(card(`
-      <span>${item.label}</span>
-      <h3>${item.name}</h3>
-      <p>${item.ingredients}</p>
-    `));
-  });
+  data.menu.forEach((item) => menu.appendChild(card(`<span>${item.label}</span><h3>${item.name}</h3><p>${item.ingredients}</p>`)));
+
+  const instagramSlot = $("#instagramLiveSlot");
+  if (instagramSlot && data.instagram) {
+    if (data.instagram.widgetHtml.trim()) {
+      instagramSlot.innerHTML = data.instagram.widgetHtml;
+      instagramSlot.classList.add("has-widget");
+    } else {
+      instagramSlot.innerHTML = `<strong>${data.instagram.handle}</strong><span>Live feed ready: paste your widget embed in <code>site-data.js</code>.</span>`;
+    }
+  }
+
+  const instagramGrid = $("#instagramGrid");
+  if (instagramGrid && data.instagram) {
+    data.instagram.posts.forEach((post) => {
+      const item = document.createElement("a");
+      item.href = "https://www.instagram.com/wandererskneaded/";
+      item.target = "_blank";
+      item.rel = "noreferrer";
+      item.innerHTML = `<img src="${post.image}" alt="${post.title}" loading="lazy"><span>${post.title}</span>`;
+      instagramGrid.appendChild(item);
+    });
+  }
 }
 
 function setHeaderState() {
@@ -159,7 +129,6 @@ function enableReveal() {
       if (entry.isIntersecting) entry.target.classList.add("is-visible");
     });
   }, { threshold: 0.16 });
-
   document.querySelectorAll(".reveal").forEach((element) => observer.observe(element));
 }
 
@@ -167,6 +136,5 @@ renderCollections();
 renderLiveStatus();
 enableReveal();
 setHeaderState();
-
 setInterval(renderLiveStatus, 30000);
 window.addEventListener("scroll", setHeaderState, { passive: true });
