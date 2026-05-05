@@ -56,13 +56,15 @@
         </span>
       </a>
       <nav class="nav" aria-label="Primary navigation">
-        <a href="#who">Who we are</a>
-        <a href="#provide">What we provide</a>
-        <a href="#today">Today</a>
+        <a href="#today">Find us today</a>
+        <a href="#events">Events & catering</a>
+        <a href="#menu">Menu</a>
+        <a href="#who">Our story</a>
         <a href="#proof">Proof</a>
-        <a href="#why">Why pizza matters</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#instagram">Instagram</a>
       </nav>
-      <a class="header-action" href="#quote">Book catering</a>
+      <a class="header-action" href="#quote">Book us</a>
     </header>
 
     <main id="main">
@@ -77,29 +79,49 @@
             <em>street food pizza van</em>
           </div>
           <p class="eyebrow">Edinburgh born. Built to roam.</p>
-          <h1>Pizza with a place in the city, not just a spot on the menu.</h1>
-          <p class="hero-text">Award-winning wood-fired trucks serving slow-fermented sourdough pizza across The Meadows, Portobello, weddings, brand events, festivals and Scotland's biggest gatherings.</p>
+          <h1>Wood-fired pizza for Edinburgh streets, weddings, festivals and hungry crowds.</h1>
+          <p class="hero-text">Award-winning mobile pizza trucks serving slow-fermented sourdough across The Meadows, Portobello, weddings, brand activations and high-volume public events across Scotland.</p>
+          <div class="hero-proof" aria-label="Wanderers Kneaded proof points">
+            <span>3 mobile units</span>
+            <span>20k+ Instagram following</span>
+            <span>British Street Food People's Choice</span>
+            <span>4.7+ public rating</span>
+          </div>
           <div class="hero-actions">
             <a class="button primary" href="#today">Find us today</a>
             <a class="button ghost" href="#quote">Plan an event</a>
           </div>
         </div>
         <aside class="live-card" aria-labelledby="live-card-title">
-          <span class="status-pill" id="statusPill">Checking...</span>
+          <span class="status-pill" id="statusPill">Opening soon</span>
           <h2 id="live-card-title">Here today</h2>
-          <p id="todayLocation">Loading today's location...</p>
+          <p id="todayLocation">The Meadows - Meadow Place, Edinburgh EH9 1JZ</p>
           <dl>
             <div>
               <dt>Service</dt>
-              <dd id="todayHours">--</dd>
+              <dd id="todayHours">12:00 - 20:00</dd>
             </div>
             <div>
               <dt>Next change</dt>
-              <dd id="countdown">--</dd>
+              <dd id="countdown">Today</dd>
             </div>
           </dl>
+          <small class="live-updated" id="lastUpdated">Last updated today</small>
           <a id="mapLink" class="inline-link" href="#today">Open map</a>
         </aside>
+      </section>
+
+      <section class="section route-section" aria-label="Choose what you need">
+        <a class="route-card find-route reveal" href="#today">
+          <span>Find the van today</span>
+          <h2>Hungry now? Get the live location, opening times and map.</h2>
+          <p>The Meadows, Portobello and pop-up services should be quick to check, especially on mobile.</p>
+        </a>
+        <a class="route-card book-route reveal" href="#quote">
+          <span>Book us for an event</span>
+          <h2>Planning a wedding, festival, brand event or staff party?</h2>
+          <p>Tell us where to park the oven and we will come back with availability, options and a quote path.</p>
+        </a>
       </section>
 
       <section id="who" class="section story-section">
@@ -136,39 +158,74 @@
             <p id="todayNote">Live status updates from the editable site data.</p>
           </div>
           <div class="clock" aria-live="polite">
-            <span id="localTime">--:--</span>
+            <span id="localTime">12:00</span>
             <small>Edinburgh time</small>
           </div>
           <div class="today-details">
             <article>
               <span>Location</span>
-              <strong id="todayAddress">--</strong>
+              <strong id="todayAddress">Meadow Place, Edinburgh EH9 1JZ</strong>
             </article>
             <article>
               <span>Open / close</span>
-              <strong id="todayWindow">--</strong>
+              <strong id="todayWindow">12:00 - 20:00</strong>
             </article>
             <article>
               <span>Live timer</span>
-              <strong id="todayTimer">--</strong>
+              <strong id="todayTimer">Fresh dough, hot oven, weather permitting</strong>
+            </article>
+            <article>
+              <span>Next service</span>
+              <strong id="nextService">Back tomorrow</strong>
+            </article>
+            <article>
+              <span>Last updated</span>
+              <strong id="todayUpdated">Today</strong>
             </article>
           </div>
           <div class="today-actions">
             <a class="button primary" id="todayMapsButton" href="#" target="_blank" rel="noreferrer">Directions</a>
-            <a class="button ghost" href="#update-guide">Update today's info</a>
+            <a class="button ghost" href="https://www.instagram.com/wandererskneaded/" target="_blank" rel="noreferrer">Check Instagram</a>
           </div>
         </div>
         <div class="locations-stack reveal" id="locationsStack" aria-label="Regular locations"></div>
       </section>
 
+      <section id="events" class="section event-section">
+        <div class="section-kicker">Events & catering</div>
+        <div class="section-heading">
+          <h2>Why event organisers book us.</h2>
+          <p>Event organisers do not just need pizza. They need reliable service, confident crews, good-looking units and food that keeps guests happy without slowing the night down.</p>
+        </div>
+        <div class="event-grid" id="eventGrid"></div>
+      </section>
+
       <section id="proof" class="section proof-section">
         <div class="section-kicker">What we have done</div>
         <div class="section-heading">
-          <h2>Trusted by venues, brands, students, wedding planners and hungry passers-by.</h2>
-          <p>The site now brings social proof forward: awards, press, public reviews and partners become part of the story instead of living below the fold.</p>
+          <h2>Loved on the street. Trusted at events.</h2>
+          <p>From everyday queues in Edinburgh to private parties, brand events and major gatherings, Wanderers Kneaded has built its reputation on proper dough, fast service and pizza people come back for.</p>
+          <a class="button primary proof-gallery-link" href="#gallery">View gallery</a>
         </div>
         <div class="marquee" aria-label="Partners and clients">
           <div class="marquee-track" id="partnerTrack"></div>
+        </div>
+        <div class="proof-showcase">
+          <article>
+            <span>Social pull</span>
+            <strong>20k+</strong>
+            <p>Instagram following around the van, the food and the events.</p>
+          </article>
+          <article>
+            <span>Street proof</span>
+            <strong>4.7+</strong>
+            <p>Public rating strength built from fast service and proper pizza.</p>
+          </article>
+          <article>
+            <span>Trusted for</span>
+            <strong>Weddings, festivals, brands</strong>
+            <p>Mobile units and crews built for parks, venues, offices and large public events.</p>
+          </article>
         </div>
         <div class="proof-grid" id="proofGrid"></div>
       </section>
@@ -181,17 +238,27 @@
           </div>
           <div class="reveal">
             <h2>Because a slice can turn a queue, a wedding evening, or a park lunch into a memory.</h2>
-            <p>Wanderers Kneaded has a strong emotional advantage: the pizza is not only food, it is a marker of Edinburgh life. The redesigned site leans into that. It explains the dough, the oven, the community, the scale, and the reason people remember the van.</p>
+            <p>Proof is in the queue: heat from the oven, dough that has had time to develop, toppings people recognise, and the smell that pulls a crowd before the first order is called.</p>
             <div class="reason-list" id="reasonList"></div>
           </div>
         </div>
       </section>
 
-      <section class="section menu-section">
+      <section id="menu" class="section menu-section">
         <div class="section-kicker">Menu snapshot</div>
         <div class="section-heading">
-          <h2>Recognisable favourites, with enough mischief to feel alive.</h2>
-          <p>The menu is pulled from the current site and kept editable in the same data file.</p>
+          <h2>The kind of menu people actually want to eat.</h2>
+          <p>Menus vary by location and event, but always centre around slow-fermented sourdough, wood-fired cooking and proper toppings.</p>
+        </div>
+        <div class="menu-modes" aria-label="Menu types">
+          <article>
+            <span>Street menu</span>
+            <p>Fast-selling favourites, veggie and vegan options, specials and slices built for public trading.</p>
+          </article>
+          <article>
+            <span>Event menu</span>
+            <p>Tailored service for weddings, corporate lunches, festivals, late-night food and brand activations.</p>
+          </article>
         </div>
         <div class="menu-grid" id="menuGrid"></div>
       </section>
@@ -216,25 +283,57 @@
       <section id="quote" class="section quote-section">
         <div class="quote-copy reveal">
           <div class="section-kicker">Catering</div>
-          <h2>Bring the oven, the crew and the queue-moving calm.</h2>
-          <p>For weddings, corporate functions, brand activations, festivals and large-scale events, this site should convert interest quickly: clear offer, trust, capacity, and a concise enquiry path.</p>
+          <h2>Tell us where to park the oven.</h2>
+          <p>Give us the basics and we will come back with availability, service options and a rough quote. No waffle. No hard sell. Just a clear next step.</p>
         </div>
         <form class="quote-form reveal" name="catering-enquiry">
-          <label>Event type <select><option>Wedding</option><option>Corporate event</option><option>Festival or public event</option><option>Private party</option></select></label>
-          <label>Guest count <input type="number" min="20" placeholder="150"></label>
-          <label>Event date <input type="date"></label>
+          <label>Name <input type="text" placeholder="Your name"></label>
+          <label>Phone <input type="tel" placeholder="Best number"></label>
           <label>Email <input type="email" placeholder="you@example.com"></label>
+          <label>Event type <select><option>Wedding</option><option>Corporate event</option><option>Festival or public event</option><option>Private party</option></select></label>
+          <label>Event date <input type="date"></label>
           <label>Venue or postcode <input type="text" placeholder="Edinburgh, Glasgow, Scotland..."></label>
+          <label>Guest numbers <input type="number" min="20" placeholder="150"></label>
+          <label>Indoor / outdoor <select><option>Outdoor</option><option>Indoor</option><option>Both / not sure</option></select></label>
+          <label>Power available? <select><option>Not sure</option><option>Yes</option><option>No</option></select></label>
+          <label>Service style <select><option>Evening food</option><option>Main meal</option><option>Staff lunch</option><option>Festival pitch</option><option>Brand activation</option></select></label>
           <label>Tell us the shape of the day <textarea rows="4" placeholder="Timings, service style, dietary needs, access notes"></textarea></label>
           <button class="button primary" type="button">Prepare quote brief</button>
         </form>
+      </section>
+
+      <section id="gallery" class="section gallery-section">
+        <div class="section-kicker">Gallery</div>
+        <div class="gallery-head">
+          <div>
+            <h2>Trailers, food and where the fire has travelled.</h2>
+            <p>Use simple filenames in <code>assets/gallery</code>: trailer images as <code>t1.jpg</code>, <code>t2.jpg</code>, <code>t3.jpg</code>; food as <code>f1.jpg</code>, <code>f2.jpg</code>; places and past events as <code>p1.jpg</code>, <code>p2.jpg</code>. The page will show these once the files are uploaded.</p>
+          </div>
+          <a class="button primary" href="#quote">Ask about trailer hire</a>
+        </div>
+        <div class="gallery-grid" id="galleryGrid" aria-label="Trailer, food and event gallery"></div>
+      </section>
+
+      <section id="instagram" class="section instagram-section">
+        <div class="section-kicker">Instagram Feed</div>
+        <div class="instagram-head">
+          <div>
+            <h2>Live from @wandererskneaded.</h2>
+            <p>This area is reserved for the live Instagram feed. Paste a widget embed or API-powered feed markup into <code>site-data.js</code> under <code>instagram.widgetHtml</code>.</p>
+          </div>
+          <a class="button primary" href="https://www.instagram.com/wandererskneaded/" target="_blank" rel="noreferrer">Open Instagram</a>
+        </div>
+        <div class="instagram-live-slot" id="instagramLiveSlot" aria-label="Live Instagram feed area"></div>
       </section>
     </main>
 
     <footer class="site-footer">
       <p>Wanderers Kneaded Limited. Wood-fired pizza trucks for Edinburgh streets and Scottish events.</p>
+      <p>Created and designed by Pete Patel.</p>
       <a href="#top">Back to top</a>
     </footer>
+
+    <a class="mobile-sticky-find" href="#today">Find us today</a>
 
     <script src="site-data.js"></script>
     <script src="app.js"></script>
